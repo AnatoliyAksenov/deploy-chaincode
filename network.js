@@ -337,6 +337,70 @@ module.exports.invoke = function(data){
     return deferred.promise;
 }
 
+module.exports.deploy = function(data){
+    var deferred = q.defer();
+
+    debug('start deploy');
+
+    chain_enroll().then(function(user){
+        
+        debug('deploy enroll success.');
+        
+        //invoke data
+        var Request = {
+            fcn:         data.fcn,
+            args:        data.args,
+            chaincodePath: 'chain_code/',           //need set current $GOPATH
+            certificatePath: '/certs/peer/cert.pem' //It's path in the remote peer, whitch deploy chaincode
+        };
+        
+        debug("deploy request" + JSON.stringify(Request));
+        
+        // Trigger the query transaction
+        var deployTx = user.deploy(Request);
+        debug('invoke transaction in progress');
+        
+        deployTx.on('complete', function(results) {
+            debug('deploy complete');
+            var chaincodeID = results.chaincodeID;
+            
+            debug('deploy chaincodeid: '+ results.chaincodeID);
+            
+            try{
+                if (chaincodeID != void 0)
+                {
+                    var oldConfFile = fs.readFileSync(__dirname + '/settings.json');
+                    var conf = JSON.parse(oldConfFile);
+                    
+                    if('chaincodeID' in conf)
+                    {
+                        conf['chaincodeID'] = chaincodeID;
+                    }
+                    
+                    if(conf['chaincodeID'] == chaincodeID){
+                        debug('deploy save new chaincodeID into settings.json file');
+                        fs.writeFileSync(__dirname + '/settings.json', JSON.stringify(conf));
+                    }
+                }
+            } catch(error) {
+                results.error = error;
+            }
+            deferred.resolve(results);
+        });
+        deployTx.on('error', function(err) {
+            debug('deploy error: ' + err);
+            deferred.reject(new Error(err));
+        });
+            
+    }, function(error){
+        debug('deploy enroll error: ' + error);
+        deferred.reject(new Error('Error enrollment admin user: ' + error));
+    });
+    
+    
+    return deferred.promise;
+}
+
 module.exports.getNetworkId = function(){
     var deferred = q.defer();
     
