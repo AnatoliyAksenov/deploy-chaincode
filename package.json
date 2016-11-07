@@ -4,7 +4,9 @@
   "description": "Deploy hyperledger fabric chaincode",
   "main": "index.js",
   "scripts": {
-    "test": "node index.js"
+    "test": "node index.js",
+    "start": "node index.js",
+    "debug": "debug=network node index.js"
   },
   "repository": {
     "type": "git",
