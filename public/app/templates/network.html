@@ -1,0 +1,27 @@
+<div id="content" class="col-xs-12 col-sm-10" >
+
+    <div class="row">
+        <h2>Peer information</h2>
+    </div class="row">    
+    <div class="row">
+        <!-- Panel -->
+        <div class="panel panel-primary">
+
+            <div class="panel-heading icon">
+                <i class="fa fa-2x fa-link"></i> <span class="">Network ID: {{networkid}}</span>
+            </div>
+            
+            <div class="panel-body" ng-repeat="peer in peers" ng-init="update($index)">
+                <div id="content">
+                    <div class="col-xs-6 col-sm-6">
+                        {{peer.api_host}}:{{peer.api_port}}</span>
+                    </div>
+                    <div class="col-xs-6 col-sm-6">
+                        <i ng-if="!statuses[$index]" class="fa fa-cog fa-spin fa-1x fa-fw"></i> <span ng-if="!!statuses[$index]">блоков: {{statuses[$index].height}}</span>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+</div>   

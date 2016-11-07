@@ -17,6 +17,13 @@
   },
   "homepage": "https://github.com/AnatoliyAksenov/deploy-chaincode#readme",
   "dependencies": {
-    "hfc": "0.5.0"
+    "body-parser": "^1.15.2",
+    "compression": "^1.6.2",
+    "cookie-parser": "^1.4.3",
+    "express": "^4.14.0",
+    "express-session": "^1.14.1",
+    "hfc": "0.5.0",
+    "q": "^1.4.1",
+    "xhr2": "^0.1.3"
   }
 }

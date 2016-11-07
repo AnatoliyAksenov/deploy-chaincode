@@ -1,0 +1,101 @@
+<br />
+<form>
+  <div class="form-group">
+    <label for="snils">СНИЛС</label>
+    <input type="text" class="form-control" id="snils" aria-describedby="snilslHelp" placeholder="Введите СНИЛС для поиска" ng-model="snils">
+  </div>
+
+
+  <button type="submit" class="btn btn-primary" ng-click="query(snils)" data-toggle="modal" data-target="#myModal">Отправить</button>
+</form>
+<br />
+
+  <div class="panel-group" id="accordion">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    <a data-toggle="collapse" data-parent="#accordion" href="#collapseResult">Результат запроса</a>
+                </h4>
+            </div>
+            <div id="collapseResult" class="panel-collapse collapse">
+                <div class="panel-body">
+                    <p>Результат: <small>{{result}}</small></p>
+                </div>
+            </div>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    <a data-toggle="collapse" data-parent="#accordion" href="#collapseHist">История запросов:</a>
+                </h4>
+            </div>
+            <div id="collapseHist" class="panel-collapse collapse">
+                <div class="panel-body">
+                  <div class="table-responsive">
+                  <table class="table table-bordered table-hover table-striped">
+                    <thead>
+                      <tr>
+                          <th><em class="fa fa-cog"></em></th>
+                          <th class="hidden-xs">ID</th>
+                          <th>Снилс</th>
+                          <th>Хэш</th>
+                          <th>Ошибки</th>
+                      </tr> 
+                    </thead>
+                    <tbody>
+                      <tr ng-repeat="h in hist">
+                        <td align="center">
+                          <a class="btn btn-danger" ng-click="histDel($index)"><em class="fa fa-trash"></em></a>
+                        </td>
+                        <td class="hidden-xs">{{$index + 1}}</td>
+                        <td>{{h.snils}}</td>
+                        <td>{{h.result}}</td>
+                        <td style="display: block; word-wrap: break-word;">{{h.error}}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  </div>
+                </div>
+            </div>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    <a data-toggle="collapse" data-parent="#accordion" href="#collapseError">Ошибки:</a>
+                </h4>
+            </div>
+            <div id="collapseError" class="panel-collapse collapse">
+                <div class="panel-body">
+                    <span style="display:block; word-wrap: break-word;">{{error}}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <h4 class="modal-title" id="myModalLabel">Результат запроса</h4>
+      </div>
+      <div class="modal-body" ng-if="!!result">
+        <span style="display: block;">Результат: {{result}}</span>
+      </div>
+      <div class="modal-body" ng-if="!!error">
+        <span style="display:block; word-wrap: break-word;">Ошибка: {{error}}</span>
+      </div>
+      
+      <div class="modal-body" ng-if="!result && !error">
+        <i class="fa fa-cog fa-spin fa-1x fa-fw"></i>
+      </div>
+      
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-dismiss="modal"><i class="fa fa-cog fa-spin fa-fw" ng-if="!result && !error"></i>&nbsp;Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
