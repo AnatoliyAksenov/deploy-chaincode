@@ -397,7 +397,7 @@ module.exports.deploy = function(data){
         deferred.reject(new Error('Error enrollment admin user: ' + error));
     });
     
-    
+    debug('end deploy');
     return deferred.promise;
 }
 

@@ -80,7 +80,14 @@ router.route('/api/peers/:id/status').get(function (req,res){
     });
 });
 
-router.route('/api/query/:contractid/:function/:snils').get(function (req,res){
+router.route('/api/query/:contractid/:function/:snils?').get(function (req,res){
+    
+    var snils = req.params.snils;
+    
+    if(!snils)
+    {
+      res.status(404).json(JSON.stringify({status:"Not found", error: "Parameter 'snils' not found."}));
+    }
     
     var data = {
       chaincodeID: req.params.contractid,
